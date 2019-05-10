@@ -23,11 +23,10 @@ public class Landmine {
         mined = true;
     }
     public void flag(){
-        if(!flagged){
-            flagged = true;
-        } else {
-            flagged = false;
-        }
+        flagged = true;
+    }
+    public void unFlag(){
+        flagged = false;
     }
     public void open() {
         open = true;

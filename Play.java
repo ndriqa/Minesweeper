@@ -3,22 +3,18 @@
  *
  * @author ndricimrrahmani*/
 
-import javax.swing.*;
-import java.awt.*;
-import java.sql.SQLOutput;
-
 public class Play{
-    static int horizontal, vertical;
-    static int unit;
-    static int minesratio;
-    static Landmine[][] blocks;
-    static int[] mines;
+    private static int horizontal, vertical;
+    private static int unit;
+    private static int minesratio;
+    private static Landmine[][] blocks;
+    private static int[][] mines;
     static boolean playing = true;
 
 
     public static void main(String[] args) {
-        horizontal = 20;
-        vertical = 20;
+        horizontal = 10;
+        vertical = 10;
         minesratio = 5;
         unit = 30;
         blocks = new Landmine[horizontal][vertical];
@@ -32,11 +28,22 @@ public class Play{
                 }
             }
             Helper help = new Helper(horizontal, vertical, minesratio);
-
+            help.initializeMines();
             mines = help.getMinePlaces();
 
+            /**
             for(int i = 0; i<mines.length; i++){
                 blocks[mines[i]/horizontal][mines[i]%horizontal].mine();
+            }
+             */
+
+            int mineNum = 0;
+
+            for(int i = 0; i<mines.length; i++){
+                for(int j = 0; j<mines[i].length; j++){
+                    blocks[i][mines[i][j]].mine();
+                }
+                mineNum += mines[i].length;
             }
 
             for(int i = 0; i<blocks.length; i++){
@@ -46,12 +53,13 @@ public class Play{
                 }
             }
 
-            ViewPanel v = new ViewPanel(horizontal, vertical, unit, blocks, mines.length);
+            ViewPanel v = new ViewPanel(horizontal, vertical, unit, blocks, mineNum);
 
-            FrameClass frameClass = new FrameClass(horizontal, vertical, unit, v);
+            //FrameClass frameClass = new FrameClass(horizontal, vertical, unit, v);
+        new FrameClass(horizontal, vertical, unit, v);
     }
 
-    public static int countMines(int i, int j){
+    private static int countMines(int i, int j){
         int count = 0;
         if(i==0){
             if(j==0){
